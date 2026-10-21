@@ -77,7 +77,7 @@ export function addRankingFromState(state: GameState): RankingEntry {
 export function shareSummaryText(state: GameState): string {
   const report = buildFinalReport(state);
   const lines = [
-    `NATION JAPAN — ${state.settings.playerName}`,
+    `Nation — ${state.settings.playerName}`,
     report.title,
     `難易度: ${state.settings.difficulty.toUpperCase()}`,
     `GDP成長: ${state.indicators.gdpGrowth.toFixed(2)}%`,

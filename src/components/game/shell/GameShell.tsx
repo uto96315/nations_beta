@@ -50,7 +50,7 @@ export function GameShell({ children }: { children: React.ReactNode }) {
       <div className="flex min-h-screen bg-[#eef1f6]">
         <div className="flex flex-1 flex-col">
           <header className="border-b border-slate-200 bg-white px-6 py-8">
-            <p className="text-sm text-slate-600">NATION JAPAN</p>
+            <p className="text-sm text-slate-600">Nation</p>
           </header>
           <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6">
             <GameLoadingPlaceholder label="ゲームデータを読み込んでいます…" />
@@ -70,8 +70,7 @@ export function GameShell({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-2 border-b border-white/10 px-4 py-5">
           <Landmark className="h-6 w-6 text-sky-300" strokeWidth={1.5} />
           <div>
-            <p className="text-xs tracking-widest text-slate-400">NATION</p>
-            <p className="text-sm font-bold">JAPAN</p>
+            <p className="text-sm font-bold tracking-wide">Nation</p>
           </div>
         </div>
         <nav className="flex-1 space-y-0.5 p-3">
@@ -122,10 +121,10 @@ export function GameShell({ children }: { children: React.ReactNode }) {
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-medium tracking-wide text-slate-600">
-                  NATION JAPAN — 総理大臣シミュレーション
+                  Nation — 総理大臣シミュレーション
                 </p>
                 <h1 className="mt-1 text-xl font-bold text-[#1a2744] sm:text-2xl">
-                  {PAGE_TITLES[pathname] ?? "NATION JAPAN"}
+                  {PAGE_TITLES[pathname] ?? "Nation"}
                 </h1>
               </div>
               <div className="rounded-lg border border-slate-200/80 bg-white/95 px-4 py-2 shadow-sm backdrop-blur">
