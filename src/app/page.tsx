@@ -30,7 +30,7 @@ export default function HomePage() {
           <div className="flex items-start gap-3">
             <Landmark className="mt-1 h-10 w-10 text-sky-200" strokeWidth={1.25} />
             <div>
-              <p className="text-xs tracking-[0.2em] text-sky-200/90">NATION JAPAN</p>
+              <p className="text-xs tracking-[0.2em] text-sky-200/90">Nation</p>
               <h1 className="text-3xl font-bold">総理大臣シミュレーション</h1>
               <p className="mt-2 max-w-xl text-sm text-slate-200">
                 予算・税制・政策のトレードオフを考えながら、4年間の国家運営を体験します。

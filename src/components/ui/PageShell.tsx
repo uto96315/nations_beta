@@ -17,7 +17,7 @@ export function PageShell({
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link href="/" className="text-xs font-semibold tracking-widest text-slate-500">
-              NATION JAPAN
+              Nation
             </Link>
             <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{title}</h1>
             {subtitle ? (
