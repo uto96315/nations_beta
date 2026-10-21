@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NATION JAPAN（MVP）
 
-## Getting Started
+日本の内閣総理大臣として4年間の国家運営を体験するブラウザシミュレーション（MVP）です。
 
-First, run the development server:
+## 起動手順
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで [http://localhost:3000](http://localhost:3000) を開きます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # 本番ビルド
+npm run test    # ゲームロジックの単体テスト
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 機能一覧（MVP）
 
-## Learn More
+- トップページ（概要・サンプル結果の明示・ローカルランキング）
+- **ゲーム開始前**：8つの政策方針（複数選択）→ 歳出自動調整 → 財源措置 → 確認して開始  
+- **ゲーム中の年次予算**：歳出・歳入の手動編成（財源選択あり）
+- 国家運営ダッシュボード（主要指標・ニュース）
+- 8カテゴリ × 2政策の選択とターン進行
+- ニュース（政策 / 国内 / 海外）
+- ランダムイベントと緊急対応（緊急予備費）
+- ターン結果画面
+- 4年満了または退陣時の結果レポート
+- ローカルランキング・共有用テキストコピー
+- localStorage によるセーブ / 再開
 
-To learn more about Next.js, take a look at the following resources:
+## データの扱い
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/data/budgetSample.ts` に **サンプル予算** を定義しています。実在の一般会計歳出そのものではありません。
+- 画面上の経済・政治指標は **ゲーム内推定** です。実統計の将来予測ではありません。
+- 公式予算ページ等への参照URLはサンプルデータファイルに記載しています。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ゲームロジック概要
 
-## Deploy on Vercel
+ロジックは `src/lib/game/` に UI から分離しています。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| モジュール | 役割 |
+|-----------|------|
+| `initialState.ts` | 初期状態・設定 |
+| `difficulty.ts` | Easy（6か月×8）/ Hard（3か月×16） |
+| `policies.ts` | 政策データ |
+| `events.ts` | イベントと選択肢 |
+| `indicators.ts` | 指標更新・クランプ |
+| `fiscal.ts` | 歳入・歳出・財政収支・構造効果 |
+| `engine.ts` | ターン進行・政策実行・予算成立・イベント |
+| `election.ts` | 選挙・退陣（簡易） |
+| `report.ts` | 最終レポート |
+| `rng.ts` | シード付き乱数（再現用） |
+| `storage.ts` | localStorage |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**簡易モデルの例**
+
+- 消費減税 → 満足度↑、財政収支↓
+- 法人減税 → 遅延で成長・雇用↑、財政↓
+- 税率設定はターンごとの税収推定に反映
+- 政策には即時効果と遅延効果（`delayTurns`）
+- Hard は政策失敗率・イベント率・効果倍率が厳しめ
+
+**乱数の再現**
+
+`GameSettings.seed` とターン番号から RNG を生成します。同じ seed・同じ選択で概ね同じ流れを再現できます。
+
+## MVPで採用した仮定
+
+- 政党名は与党/野党の抽象モデル（支持率のみ）
+- マクロ経済は線形の加算・少数の乗算で近似
+- Super Hard・課金・サーバー側ランキング・認証は未実装
+- グラフ（Recharts）は依存のみ導入（ダッシュボードは表中心）
+- 年間予算編成は「年1回・歳入＝歳出の成立が必要」
+
+## 未実装・今後
+
+- バックエンド API / マルチユーザーランキング
+- 詳細なマクロ経済モデル・メディア論調
+- Super Hard（有料化検討中）
+- Recharts による推移グラフ
+- 実予算データの正式取り込み（データファイル差し替え）
+
+## 動作確認チェックリスト
+
+- [ ] 設定から Easy / Hard で開始
+- [ ] 政策選択 → ターン進行 → 指標変化
+- [ ] イベント対応で結果が変化
+- [ ] スキップでターンのみ進む
+- [ ] 最大ターン後にレポート
+- [ ] 続きから再開（localStorage）
+- [ ] スマホ幅で1カラム表示

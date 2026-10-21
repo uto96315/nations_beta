@@ -1,0 +1,52 @@
+---
+description: main 直コミット禁止。作業は feature ブランチ + PR で進める
+alwaysApply: true
+---
+
+# Git ブランチ & PR ワークフロー
+
+リモート: `origin` → `github.com:uto96315/nations_beta.git`  
+ベースブランチ: `main`
+
+## 原則
+
+- **`main` に直接コミット・push しない**（緊急の hotfix をユーザーが明示した場合のみ例外）
+- 機能追加・修正・リファクタは **必ず作業用ブランチ** を切ってから着手する
+- 作業がまとまったら **PR を作成** し、`main` へのマージは PR 経由とする
+
+## 作業開始時（エージェント）
+
+1. `git fetch origin`
+2. `main` を最新に: `git checkout main && git pull origin main`
+3. ブランチ作成: `git checkout -b <type>/<短い説明>`  
+   - 例: `feature/game-ranking`, `fix/setup-validation`, `chore/deps-update`
+4. 以降の変更はこのブランチ上でのみ行う
+
+## コミット
+
+- ユーザーがコミットを依頼したときだけコミットする（既存の git 安全ルールに従う）
+- コミットメッセージは変更の「why」を短く書く
+
+## PR 作成
+
+ユーザーが PR を出したい・作業完了と言ったとき、または変更がレビュー可能な単位になったとき:
+
+1. `git push -u origin HEAD`
+2. `gh pr create`（タイトル・本文は変更内容に即した要約とテスト観点）
+3. 作成した **PR の URL** をユーザーに返す
+
+PR 本文テンプレ:
+
+```markdown
+## Summary
+- （変更の要点 1〜3 行）
+
+## Test plan
+- [ ] `npm run lint`
+- [ ] `npm test`（該当時）
+- [ ] 手動確認: （画面・操作）
+```
+
+## 複数タスク
+
+別テーマの作業は **ブランチを分ける**。1 PR = 1 目的に近づける。
