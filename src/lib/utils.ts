@@ -1,5 +1,7 @@
+import { twMerge } from "tailwind-merge";
+
 export function cn(...parts: Array<string | false | null | undefined>) {
-  return parts.filter(Boolean).join(" ");
+  return twMerge(parts.filter(Boolean).join(" "));
 }
 
 export function formatNumber(n: number, digits = 1) {
